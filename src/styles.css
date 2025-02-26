@@ -1,0 +1,75 @@
+.container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin-top: 20px;
+}
+
+h1 {
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.video-container {
+  position: relative;
+  display: inline-block;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #ddd;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.video-feed {
+  width: 640px;
+  height: 480px;
+  display: block;
+}
+
+.video-overlay, .qr-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 640px;
+  height: 480px;
+  pointer-events: none;
+}
+
+.loading-text {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #ff5722;
+  font-weight: bold;
+}
+
+.message-box {
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  background-color: #28a745;
+  border-radius: 8px;
+  display: inline-block;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+.text-box-container {
+  margin-top: 20px;
+}
+
+.text-input {
+  width: 100%;
+  max-width: 640px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: scale(0.9); }
+  20% { opacity: 1; transform: scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: scale(0.9); }
+}
