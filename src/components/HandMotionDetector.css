@@ -1,0 +1,122 @@
+/* container to hold everything */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  overflow: hidden; /* Prevents vertical scrollbar */
+}
+
+.content {
+  display: flex;
+  justify-content: center; /* Centering content horizontally */
+  align-items: center;
+  width: 100%;
+  max-width: 1400px; /* Increased max width for larger screens */
+  flex-grow: 1;
+  gap: 20px;
+}
+
+h1 {
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.order-id-container,
+.stop-id-container {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-container {
+  width: 70%; /* Increased width for the webcam */
+  height: 500px; /* Fixed height to improve video display */
+  max-height: 600px; /* Max height to ensure it doesn't stretch too much */
+  position: relative;
+}
+
+.video-feed {
+  width: 100%; /* Ensures the video takes up full container width */
+  height: 100%; /* Ensures the video takes up full container height */
+  object-fit: cover; /* Ensures the video maintains aspect ratio and fills the area */
+  border-radius: 10px;
+}
+
+.video-feed {
+  width: 640px;
+  height: 480px;
+  display: block;
+}
+
+.stop-button {
+  padding: 12px 30px;
+  font-size: 18px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stop-button:hover {
+  background-color: darkred;
+  transform: scale(1.05);
+}
+
+.stop-button:focus {
+  outline: none;
+}
+
+.text-box-container {
+  margin-top: 20px;
+}
+
+.text-input {
+  padding: 10px;
+  font-size: 16px;
+  width: 250px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.loading-text,
+.message-box {
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+@media (max-width: 1024px) {
+  .content {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .order-id-container, .stop-id-container {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .stop-button {
+    width: 100%;
+  }
+
+  .video-container {
+    width: 90%; /* Take up more width on smaller screens */
+    height: 400px; /* Reduce height for smaller screens */
+  }
+
+  .video-feed {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Adjust video scaling to fit without clipping */
+  }
+}
