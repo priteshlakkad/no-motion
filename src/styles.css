@@ -1,30 +1,58 @@
+/* General container settings */
 .container {
-  text-align: center;
-  font-family: Arial, sans-serif;
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Prevent scrolling */
 }
 
-h1 {
-  font-size: 26px;
-  color: #333;
-  margin-bottom: 10px;
+.message-box {
+  position: fixed; /* Position the message box fixed */
+  bottom: 20px; /* Position it at the bottom */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center horizontally */
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  z-index: 10; /* Ensure it stays on top */
+  max-width: 80%; /* Optional: To limit the message width */
+  text-align: center; /* Optional: Center text */
 }
 
+/* Flex content container */
+.content {
+  display: flex;
+  justify-content: center; /* Centering content horizontally */
+  align-items: center;
+  width: 100%;
+  max-width: 1400px; /* Increased max width for larger screens */
+  flex-grow: 1;
+  gap: 20px;
+}
+
+/* Video container settings */
 .video-container {
   position: relative;
   display: inline-block;
   border-radius: 10px;
   overflow: hidden;
-  border: 2px solid #ddd;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border: 5px solid green;
+  /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); */
+  width: 70%; /* Increased width for the webcam */
+  height: 500px; /* Fixed height to improve video display */
+  max-height: 600px; /* Max height to ensure it doesn't stretch too much */
 }
 
 .video-feed {
-  width: 640px;
-  height: 480px;
-  display: block;
+  width: 100%; /* Ensures the video takes up full container width */
+  height: 100%; /* Ensures the video takes up full container height */
+  object-fit: cover; /* Ensures the video maintains aspect ratio and fills the area */
 }
 
+/* Video overlays (time and QR) */
 .video-overlay, .qr-overlay {
   position: absolute;
   top: 0;
@@ -34,6 +62,37 @@ h1 {
   pointer-events: none;
 }
 
+/* Date and time overlay (right corner) */
+.time-overlay {
+  position: absolute;
+  top: -6px;
+  right: 12px;
+  z-index: 10; /* Ensure it's above other elements */
+}
+
+/* Recording icon (appears between datetime and order ID when recording) */
+.recording-icon {
+  position: absolute;
+  top: 10px; /* Position it at the top */
+  left: 50%; /* Center it horizontally */
+  transform: translateX(-50%); /* Center horizontally */
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: red; /* Red dot for recording */
+  z-index: 10; /* Ensure it stays on top */
+}
+
+/* Current file name overlay (left corner) */
+.file-name-overlay {
+  position: absolute;
+  top: -6px;
+  left: 12px;
+  z-index: 10; /* Ensure it's above other elements */
+}
+
+
+/* Loading and message text */
 .loading-text {
   margin-top: 10px;
   font-size: 18px;
@@ -53,23 +112,76 @@ h1 {
   animation: fadeInOut 3s ease-in-out;
 }
 
-.text-box-container {
-  margin-top: 20px;
-}
-
-.text-input {
-  width: 100%;
-  max-width: 640px;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-
+/* Fade-in/out animation for messages */
 @keyframes fadeInOut {
   0% { opacity: 0; transform: scale(0.9); }
   20% { opacity: 1; transform: scale(1); }
   80% { opacity: 1; }
   100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* Stop button */
+.stop-button {
+  padding: 12px 30px;
+  font-size: 18px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stop-button:hover {
+  background-color: darkred;
+  transform: scale(1.05);
+}
+
+.stop-button:focus {
+  outline: none;
+}
+
+/* Text input style */
+.text-box-container {
+  margin-top: 20px;
+}
+
+.text-input {
+  padding: 10px;
+  font-size: 16px;
+  width: 250px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 1024px) {
+  .content {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .order-id-container, .stop-id-container {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .stop-button {
+    width: 100%;
+  }
+
+  .video-container {
+    width: 90%; /* Take up more width on smaller screens */
+    height: 400px; 
+  }
+
+  .video-feed {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Adjust video scaling to fit without clipping */
+  }
 }

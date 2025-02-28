@@ -4,7 +4,7 @@ import HandMotionDetector from "./components/HandMotionDetector";
 function App() {
   return (
     <div>
-      <h1>Hand Motion Detector</h1>
+      <h1 align="center">Video Recording</h1>
       <HandMotionDetector />
     </div>
   );

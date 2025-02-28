@@ -1,9 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
-import './HandMotionDetector.css';
+import 'font-awesome/css/font-awesome.min.css';
 
 const HandMotionDetector = () => {
   const videoRef = useRef(null);
-  const canvasRef = useRef(null);
   const [fileName, setFileName] = useState(""); // For orderId
   const [orderId, setOrderId] = useState(""); // Store the latest orderId
   const mediaRecorderRef = useRef(null);
@@ -11,11 +10,18 @@ const HandMotionDetector = () => {
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [message, setMessage] = useState("");
+  const [currentTime, setCurrentTime] = useState(""); // For the real-time clock
 
   useEffect(() => {
     const setupCamera = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: { ideal: 1920 }, // Request Full HD width
+            height: { ideal: 1080 }, // Request Full HD height
+            facingMode: "user", // You can add this to prefer the front camera (optional)
+          },
+        });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           videoRef.current.onloadedmetadata = () => {
@@ -28,6 +34,15 @@ const HandMotionDetector = () => {
       }
     };
     setupCamera();
+
+    // Update the time every second
+    const interval = setInterval(() => {
+      const now = new Date();
+      setCurrentTime(now.toLocaleString());
+    }, 1000);
+
+    // Clear the interval on cleanup
+    return () => clearInterval(interval);
   }, []);
 
   const handleRecording = () => {
@@ -58,7 +73,6 @@ const HandMotionDetector = () => {
       mediaRecorder.start();
       mediaRecorderRef.current = mediaRecorder;
       setIsRecording(true);
-      setMessage("🎥 Recording started...");
     }
   };
 
@@ -66,7 +80,6 @@ const HandMotionDetector = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
-      setMessage("📥 Recording stopped, downloading...");
       setTimeout(() => setMessage(""), 3000);
     }
   };
@@ -115,46 +128,67 @@ const HandMotionDetector = () => {
 
   return (
     <div className="container">
-      <div className="content">
-        {/* Left side container for the latest order ID */}
-        <div className="order-id-container">
-          {orderId && (
-            <div className="order-id-box">
-              <p><strong>Current Video Recording ID:</strong> {orderId}</p>
-            </div>
-          )}
-        </div>
-
-        {/* Center container for webcam feed */}
-        {/* <div className="video-container"> */}
-          <video ref={videoRef} autoPlay playsInline className="video-feed"></video>
-        {/* </div> */}
-
-        {/* Right side for Stop & Download with Order ID Design */}
-        <div className="stop-id-container">
-          <div className="order-id-box">
-            <button className="stop-button" onClick={handleStopRecording}>Stop & Download</button>
-          </div>
+    <div className="content">
+      {/* Left side container for the latest order ID */}
+      <div className="order-id-container">
+        <div className="order-id-box">
+          <p><strong>Current Order ID:</strong> {orderId || "N/A"}</p>
         </div>
       </div>
-
-      {!isCameraReady && <p className="loading-text">Loading camera...</p>}
-      {message && <div className="message-box">{message}</div>}
-
-      <div className="text-box-container">
-        <form onSubmit={handleOrderIdSubmit}>
-          <input
-            type="text"
-            placeholder="Enter Order ID here..."
-            className="text-input"
-            value={fileName}
-            onChange={(e) => setFileName(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleOrderIdSubmit(e)} // Trigger on Enter key
-          />
-        </form>
+  
+      {/* Center container for webcam feed */}
+      <div className="video-container">
+        <video ref={videoRef} autoPlay playsInline className="video-feed"></video>
+  
+        {/* Overlay for the Date and Time */}
+        {isCameraReady && (
+          <div className="time-overlay">
+            <p>{currentTime}</p>
+          </div>
+        )}
+  
+        {/* Recording Icon placed between datetime and order ID */}
+        {isRecording && (
+          <div className="recording-icon"></div>
+        )}
+  
+        {/* Display the current file name (orderId) in the left corner */}
+        {orderId && (
+          <div className="file-name-overlay">
+            <p><strong>Order ID:</strong> {orderId}</p>
+          </div>
+        )}
+      </div>
+  
+      {/* Right side for Stop & Download with Order ID Design */}
+      <div className="stop-id-container">
+        <div className="order-id-box">
+          <button className="stop-button" onClick={handleStopRecording}>Stop & Download</button>
+        </div>
       </div>
     </div>
+  
+    {!isCameraReady && <p className="loading-text">Loading camera...</p>}
+    {message && <div className="message-box">{message}</div>}
+  
+    <div className="text-box-container">
+      <form onSubmit={handleOrderIdSubmit}>
+        <input
+          type="text"
+          placeholder="Enter Order ID here..."
+          className="text-input"
+          value={fileName}
+          onChange={(e) => setFileName(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleOrderIdSubmit(e)} // Trigger on Enter key
+        />
+      </form>
+    </div>
+  </div>
+  
+
   );
+  
+  
 };
 
 export default HandMotionDetector;
