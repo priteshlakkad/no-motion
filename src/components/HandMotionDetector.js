@@ -64,14 +64,14 @@ const HandMotionDetector = () => {
 
         // Draw the Current Order ID on the top-left side
         context.font = "30px Arial";
-        context.fillStyle = "black";
+        context.fillStyle = "red";
         context.textAlign = "left";
         context.textBaseline = "top";
         context.fillText(`Order ID: ${orderId || "N/A"}`, 20, 20);
 
         // Draw the current date-time on the top-right side
         context.font = "30px Arial";
-        context.fillStyle = "black";
+        context.fillStyle = "red";
         context.textAlign = "right";
         context.textBaseline = "top";
         context.fillText(currentTime, canvasRef.current.width - 20, 20); // Top-right corner
